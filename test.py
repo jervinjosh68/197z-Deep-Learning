@@ -15,9 +15,9 @@ import requests
 
 def get_file(url,path,filename, chunk_size=128):
     r = requests.get(url, stream=True)
-    with open(path, 'wb') as fd:
+    with open(path, 'wb') as downloaded:
         for chunk in r.iter_content(chunk_size=chunk_size):
-            fd.write(chunk)
+            downloaded.write(chunk)
 
 if __name__ == '__main__':
     model = torchvision.models.detection.fasterrcnn_mobilenet_v3_large_320_fpn(pretrained=False)

@@ -70,9 +70,9 @@ class DrinksData(torch.utils.data.Dataset):
 
 def get_file(url,path, filename, target_dir, chunk_size=128):
     r = requests.get(url, stream=True)
-    with open(path, 'wb') as fd:
+    with open(path, 'wb') as downloaded:
         for chunk in r.iter_content(chunk_size=chunk_size):
-            fd.write(chunk)
+            downloaded.write(chunk)
     with ZipFile(filename, 'r') as zipObj:
         zipObj.extractall(target_dir)
 

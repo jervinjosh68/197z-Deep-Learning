@@ -20,9 +20,9 @@ import os
 
 def get_file(url,path,filename, chunk_size=128):
     r = requests.get(url, stream=True)
-    with open(path, 'wb') as fd:
+    with open(path, 'wb') as downloaded:
         for chunk in r.iter_content(chunk_size=chunk_size):
-            fd.write(chunk)
+            downloaded.write(chunk)
 CLASSES = [0,"Summit Water","Coca Cola","Del Monte Pineapple Juice"]
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
