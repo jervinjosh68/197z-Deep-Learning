@@ -24,7 +24,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = fasterrcnn_mobilenet_v3_large_320_fpn(pretrained=True)
 in_features = model.roi_heads.box_predictor.cls_score.in_features
 model.roi_heads.box_predictor = FastRCNNPredictor(in_features, 4)
-weights = torch.load("weights2.pth")
+weights = torch.load("weights.pth")
 model.load_state_dict(weights["state_dict"])
 model.eval()
 model.to(device)
