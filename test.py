@@ -30,11 +30,11 @@ if __name__ == '__main__':
     dataset_test = DrinksData(os.getcwd(), transform = transforms.Compose([transforms.ToTensor()]), train = False)
     data_loader_test = DataLoader(dataset_test, batch_size=1, shuffle=False, num_workers=0,collate_fn=utils.collate_fn)
     if not os.path.exists('weights.pth'):
-        print("Downloading...")
+        print("weights.pth does not exist. Downloading...")
         get_file("https://github.com/jervinjosh68/197z-Object-Detection/releases/download/v1/weights.pth", 'weights.pth',"weights.pth")
-        print("weights.pthh downloaded")
+        print("weights.pth downloaded")
     else:
-        print('Specified directory already downloaded. Skipping this step.')
+        print('Specified file (weights.pth) already downloaded. Skipping this step.')
     pretrained_file = "fasterrcnn_mobilenet_v3_large_320_fpn_finetuned_drinks.pth"
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     weights = torch.load("weights.pth")

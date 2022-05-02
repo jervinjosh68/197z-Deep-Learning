@@ -37,7 +37,7 @@ class DrinksData(torch.utils.data.Dataset):
             get_file("https://github.com/jervinjosh68/197z-Object-Detection/releases/download/v1/drinks.zip", 'drinks.zip', 'drinks.zip', 'drinks')
             print("drinks.zip downloaded")
         else:
-            print('Specified directory already downloaded. Skipping this step.')
+            print('Specified directory (drinks.zip) already downloaded. Skipping this step.')
     def __getitem__(self, idx):
         img_path = os.path.join(self.root, "drinks/drinks", self.imgs[idx])
         img = Image.open(img_path).convert("RGB")
