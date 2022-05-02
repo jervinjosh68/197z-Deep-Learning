@@ -1,0 +1,10 @@
+cython
+git+https://github.com/gautamchitnis/cocoapi.git@cocodataset-master#subdirectory=PythonAPI
+matplotlib
+torchvision
+imutils
+numpy
+pytorch
+pillow
+opencv-python
+pycocotools==2.0.4
