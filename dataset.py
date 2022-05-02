@@ -10,8 +10,6 @@ from PIL import Image
 import requests
 from zipfile import ZipFile
 
-
-
 class DrinksData(torch.utils.data.Dataset):
     def __init__(self, root, transform, train = True):
         self.root = root
@@ -42,8 +40,6 @@ class DrinksData(torch.utils.data.Dataset):
         img_path = os.path.join(self.root, "drinks/drinks", self.imgs[idx])
         img = Image.open(img_path).convert("RGB")
         img_name = self.imgs[idx]
-        
-
         num_objs = len(self.labels[img_name])
         boxes = []
         labels = []
@@ -55,30 +51,22 @@ class DrinksData(torch.utils.data.Dataset):
             ymax = int(temp_list[3])
             boxes.append([xmin, ymin, xmax, ymax])
             labels.append(int(temp_list[4].strip()))
-
-
         boxes = torch.as_tensor(boxes, dtype=torch.float32)
         labels = torch.as_tensor(labels, dtype=torch.int64)
-
         image_id = torch.tensor([idx])
         area = torch.as_tensor((boxes[:, 3] - boxes[:, 1]) * (boxes[:, 2] - boxes[:, 0]), dtype = torch.float32)
         iscrowd = torch.zeros((num_objs,), dtype=torch.int64)
-
         target = {}
         target["boxes"] = boxes
         target["labels"] = labels
         target["image_id"] = image_id
         target["area"] = area
         target["iscrowd"] = iscrowd
-
         if self.transform is not None:
             img, target = self.transform(img, target)
         return img, target
-
     def __len__(self):
         return len(self.imgs)    
-
-
 
 def get_file(url,path, filename, target_dir, chunk_size=128):
     r = requests.get(url, stream=True)

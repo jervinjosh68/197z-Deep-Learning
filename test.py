@@ -20,7 +20,6 @@ def get_file(url,path,filename, chunk_size=128):
             fd.write(chunk)
 
 if __name__ == '__main__':
-    
     model = torchvision.models.detection.fasterrcnn_mobilenet_v3_large_320_fpn(pretrained=False)
     num_classes = 4
     in_features = model.roi_heads.box_predictor.cls_score.in_features
@@ -38,8 +37,6 @@ if __name__ == '__main__':
     pretrained_file = "fasterrcnn_mobilenet_v3_large_320_fpn_finetuned_drinks.pth"
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     weights = torch.load("weights.pth")
-
     model.load_state_dict(weights['state_dict'])
-    
     model.to(device)
     evaluate(model, data_loader_test, device=device)

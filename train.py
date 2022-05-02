@@ -11,14 +11,8 @@ import numpy as np
 import transforms
 from torch.optim.lr_scheduler import StepLR
 
-
-# load a model pre-trained pre-trained on COCO
-
 if __name__ == '__main__':
-    # split the dataset in train and test set
     model = torchvision.models.detection.fasterrcnn_mobilenet_v3_large_320_fpn(pretrained=True)
-
-
     num_classes = 4 
     in_features = model.roi_heads.box_predictor.cls_score.in_features
 
