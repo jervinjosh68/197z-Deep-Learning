@@ -17,7 +17,7 @@ from imutils.video import VideoStream
 from imutils.video import FPS
 
 
-CLASSES = [0,"water","coke","pineapple"]
+CLASSES = [0,"Summit Water","Coca Cola","Del Monte Pineapple Juice"]
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
