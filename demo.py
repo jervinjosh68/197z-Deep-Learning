@@ -15,8 +15,14 @@ import torchvision.transforms as T
 import pickle
 from imutils.video import VideoStream
 from imutils.video import FPS
+import requests
+import os
 
-
+def get_file(url,path,filename, chunk_size=128):
+    r = requests.get(url, stream=True)
+    with open(path, 'wb') as fd:
+        for chunk in r.iter_content(chunk_size=chunk_size):
+            fd.write(chunk)
 CLASSES = [0,"Summit Water","Coca Cola","Del Monte Pineapple Juice"]
 COLORS = np.random.uniform(0, 255, size=(len(CLASSES), 3))
 
@@ -24,6 +30,13 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 model = fasterrcnn_mobilenet_v3_large_320_fpn(pretrained=True)
 in_features = model.roi_heads.box_predictor.cls_score.in_features
 model.roi_heads.box_predictor = FastRCNNPredictor(in_features, 4)
+
+if not os.path.exists('weights.pth'):
+    print("weights.pth does not exist. Downloading...")
+    get_file("https://github.com/jervinjosh68/197z-Object-Detection/releases/download/v1/weights.pth", 'weights.pth',"weights.pth")
+    print("weights.pth downloaded")
+else:
+    print('Specified file (weights.pth) already downloaded. Skipping this step.')
 weights = torch.load("weights.pth")
 model.load_state_dict(weights["state_dict"])
 model.eval()
