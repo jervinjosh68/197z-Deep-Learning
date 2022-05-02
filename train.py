@@ -8,11 +8,9 @@ from torchvision.models.detection.faster_rcnn import FastRCNNPredictor
 import os
 from torch.utils.data import DataLoader
 import numpy as np
-import label_utils
 import transforms
 from torch.optim.lr_scheduler import StepLR
-import wandb
-import pickle
+
 
 # load a model pre-trained pre-trained on COCO
 
