@@ -48,7 +48,7 @@ class UnknownDataset(SPEECHCOMMANDS):
 
 class KWSDataModule(LightningDataModule):
     def __init__(self, path, batch_size=128, num_workers=0, n_fft=512, 
-                 n_mels=128, win_length=None, hop_length=256, class_dict={}, patch_num = 16, download = False,
+                 n_mels=128, win_length=None, hop_length=256, class_dict={}, patch_num = 16, download = True,
                  **kwargs):
         super().__init__(**kwargs)
         self.path = path
@@ -60,11 +60,11 @@ class KWSDataModule(LightningDataModule):
         self.hop_length = hop_length
         self.class_dict = class_dict
         self.patch_num = patch_num
-        self.download = download
+        self.download_bool = download
 
     def prepare_data(self):
         self.train_dataset = torchaudio.datasets.SPEECHCOMMANDS(self.path,
-                                                                download=self.download,
+                                                                download=self.download_bool,
                                                                 subset='training')
 
         silence_dataset = SilenceDataset(self.path)
@@ -72,10 +72,10 @@ class KWSDataModule(LightningDataModule):
         self.train_dataset = torch.utils.data.ConcatDataset([self.train_dataset, silence_dataset, unknown_dataset])
                                                                 
         self.val_dataset = torchaudio.datasets.SPEECHCOMMANDS(self.path,
-                                                              download=self.download,
+                                                              download=self.download_bool,
                                                               subset='validation')
         self.test_dataset = torchaudio.datasets.SPEECHCOMMANDS(self.path,
-                                                               download=self.download,
+                                                               download=self.download_bool,
                                                                subset='testing')                                                    
         _, sample_rate, _, _, _ = self.train_dataset[0]
         self.sample_rate = sample_rate

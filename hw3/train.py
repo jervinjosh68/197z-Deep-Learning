@@ -16,18 +16,20 @@ if __name__ == '__main__':
     if not os.path.exists('./dataset'):
         print("Dataset folder is not found. Downloading...")
         data_path = "./dataset"
-        download = True
+        download_bool = True
         os.makedirs(data_path)
     
     else:
         data_path = "./dataset"
-        download = False
+        download_bool = False
         print("Dataset folder is found. Loading data...")
     datamodule = kws_data.KWSDataModule(batch_size=args.batch_size, num_workers=args.num_workers,
                                path="dataset", n_fft=args.n_fft, n_mels=args.n_mels,
                                win_length=args.win_length, hop_length=args.hop_length,
-                               class_dict=CLASS_TO_IDX, patch_num=args.patch_num,download=download)
+                               class_dict=CLASS_TO_IDX, patch_num=args.patch_num, download=download_bool)
     datamodule.setup()
+
+    print("SET-UP DONE")
 
     data = iter(datamodule.train_dataloader()).next()
     patch_dim = data[0].shape[-1]
